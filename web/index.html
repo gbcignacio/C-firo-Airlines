@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brisa · Asistente de Céfiro Airlines</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230ea5e9'/><stop offset='1' stop-color='%234f46e5'/></linearGradient></defs><rect width='100' height='100' rx='28' fill='url(%23g)'/><text x='50' y='68' font-size='52' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>C</text></svg>">
+</head>
+<body>
+  <div class="fondo" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <div class="app">
+    <!-- ============ BARRA LATERAL ============ -->
+    <aside class="lateral" id="lateral">
+      <div class="marca">
+        <div class="logo"><i data-i="plane"></i></div>
+        <div>
+          <strong>Céfiro Airlines</strong>
+          <small>Atención al pasajero</small>
+        </div>
+      </div>
+
+      <button class="btn-nueva" id="btnNueva"><i data-i="plus"></i>Nueva conversación</button>
+
+      <nav class="temas">
+        <p class="etiqueta">Temas rápidos</p>
+        <button class="tema" data-pregunta="¿Qué equipaje incluye cada tarifa y cuánto cuesta una maleta extra?"><span class="ico t1"><i data-i="suitcase"></i></span>Equipaje</button>
+        <button class="tema" data-pregunta="¿Puedo cambiar o cancelar mi vuelo? ¿Qué me devuelven según la tarifa?"><span class="ico t2"><i data-i="repeat"></i></span>Cambios y cancelaciones</button>
+        <button class="tema" data-pregunta="¿Qué derechos tengo si mi vuelo se retrasa?"><span class="ico t3"><i data-i="clock"></i></span>Retrasos y reclamaciones</button>
+        <button class="tema" data-pregunta="¿Cómo funciona Céfiro Club y cómo se ganan millas?"><span class="ico t4"><i data-i="award"></i></span>Céfiro Club</button>
+        <button class="tema" data-pregunta="¿Cuándo puedo hacer el check-in y qué documentación necesito?"><span class="ico t5"><i data-i="idcard"></i></span>Check-in y documentación</button>
+      </nav>
+
+      <div class="como">
+        <p class="etiqueta">Cómo funciona</p>
+        <div class="agente" data-agente="supervisor">
+          <span class="punto sup"><i data-i="compass"></i></span>
+          <div><strong>Supervisor</strong><small>Decide quién actúa · LangGraph</small></div>
+        </div>
+        <div class="rama">
+          <div class="agente" data-agente="documentalista">
+            <span class="punto doc"><i data-i="book"></i></span>
+            <div><strong>Documentalista</strong><small>RAG · ChromaDB · MCP</small></div>
+          </div>
+          <div class="agente" data-agente="calculadora">
+            <span class="punto calc"><i data-i="calculator"></i></span>
+            <div><strong>Calculadora</strong><small>6 herramientas de cálculo</small></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="aviso">Céfiro Airlines es una aerolínea ficticia · Proyecto académico ICADE</p>
+    </aside>
+    <div class="velo" id="velo"></div>
+
+    <!-- ============ ZONA DE CHAT ============ -->
+    <main class="chat">
+      <header class="barra">
+        <button class="btn-icono solo-movil" id="btnMenu" aria-label="Menú"><i data-i="menu"></i></button>
+        <div class="titulo">
+          <span class="mini-orbe"></span>
+          <div><strong>Brisa</strong><small id="estadoTexto">Conectando…</small></div>
+        </div>
+        <span class="estado" id="estado"></span>
+        <button class="btn-icono" id="btnTema" aria-label="Cambiar tema"><i data-i="moon"></i></button>
+      </header>
+
+      <section class="mensajes" id="mensajes">
+        <div class="bienvenida" id="bienvenida">
+          <div class="orbe"><i data-i="plane"></i></div>
+          <h1>Hola, soy <span class="degradado">Brisa</span></h1>
+          <p>La asistente de Céfiro Airlines. Pregúntame por equipaje, cambios, retrasos o millas: busco en las normas de la aerolínea y hago las cuentas por ti.</p>
+          <div class="alerta" id="alerta" hidden></div>
+          <div class="sugerencias">
+            <button class="sugerencia" data-pregunta="Mi vuelo Madrid–Nueva York llegó con 5 horas de retraso por una avería del avión. ¿Cuánto me corresponde de compensación?">
+              <span class="ico t3"><i data-i="clock"></i></span>
+              <strong>Mi vuelo se retrasó</strong>
+              <span>Madrid–Nueva York con 5 horas de retraso, ¿cuánto me pagan?</span>
+            </button>
+            <button class="sugerencia" data-pregunta="Tengo un billete Basic de ida y vuelta a Roma y quiero facturar 2 maletas de 23 kg comprándolas en la web. ¿Cuánto pago en total?">
+              <span class="ico t1"><i data-i="suitcase"></i></span>
+              <strong>Facturar maletas</strong>
+              <span>Basic ida y vuelta a Roma con 2 maletas, ¿cuánto pago?</span>
+            </button>
+            <button class="sugerencia" data-pregunta="Compré un billete Flex de 320 € (275 € de tarifa y 45 € de tasas) y lo cancelo 10 horas antes del vuelo. ¿Cuánto me devuelven?">
+              <span class="ico t2"><i data-i="repeat"></i></span>
+              <strong>Cancelar un billete</strong>
+              <span>Flex de 320 € cancelado 10 horas antes, ¿cuánto me devuelven?</span>
+            </button>
+            <button class="sugerencia" data-pregunta="Soy nivel Plata en Céfiro Club y vuelo ida y vuelta Madrid–Atenas con tarifa Classic. ¿Cuántas millas gano?">
+              <span class="ico t4"><i data-i="award"></i></span>
+              <strong>Mis millas</strong>
+              <span>Plata, ida y vuelta a Atenas en Classic, ¿cuántas millas gano?</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="redactor">
+        <form class="caja" id="formulario">
+          <textarea id="entrada" rows="1" placeholder="Escribe tu pregunta sobre tu vuelo…" autocomplete="off"></textarea>
+          <button type="submit" class="btn-enviar" id="btnEnviar" aria-label="Enviar" disabled><i data-i="arrowup"></i></button>
+        </form>
+        <p class="pista"><kbd>Enter</kbd> para enviar · <kbd>Shift</kbd> + <kbd>Enter</kbd> nueva línea · Las respuestas son orientativas</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

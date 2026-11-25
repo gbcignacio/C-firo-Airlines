@@ -1,0 +1,18 @@
+# Entorno y cachés
+.venv/
+__pycache__/
+*.pyc
+
+# Base vectorial: se regenera con `python -m app.ingesta`
+chroma_db/
+
+# Secretos: la clave del modelo NUNCA se sube
+.env
+
+# Material de clase (no es nuestro, no se publica)
+Manual_agentes_LangGraph_RAG_ChromaDB_FastMCP.pdf
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
